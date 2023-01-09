@@ -8,34 +8,30 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int count = 0;
 
-  @override
-  void initState() {
-    print("Iniciou o State Novamente!");
-    super.initState();
-  }
+  int _count = 0;
 
   void _decrement() {
     setState(() {
-      count--;
+      _count--;
     });
   }
 
   void _increment() {
     setState(() {
-      count++;
+      _count++;
     });
   }
+
+  bool get isEmpty => _count == 0;
+
+  bool get isFull => _count == 20;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.red,
-        appBar: AppBar(
-          title: const Text("Contador pessoa"),
-        ),
         body: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
@@ -46,18 +42,18 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                "Pode entrar",
+              Text(
+                isFull ? 'Lotado'.toUpperCase() : 'Pode entrar',
                 style: TextStyle(
                   fontSize: 30.0,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
+                  color: isFull ? Colors.red : Colors.blueAccent,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(32),
                 child: Text(
-                  "$count",
+                  "$_count",
                   style: const TextStyle(
                     fontSize: 100.0,
                     color: Colors.white,
@@ -68,9 +64,9 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextButton(
-                    onPressed: _decrement,
+                    onPressed: isEmpty ? null : _decrement,
                     style: TextButton.styleFrom(
-                      backgroundColor: Colors.white,
+                      backgroundColor: isEmpty ? Colors.white.withOpacity(0.2) : Colors.white,
                       fixedSize: const Size(100.0, 100.0),
                       foregroundColor: Colors.black,
                       shape: RoundedRectangleBorder(
@@ -89,9 +85,9 @@ class _HomePageState extends State<HomePage> {
                     width: 32,
                   ),
                   TextButton(
-                    onPressed: _increment,
+                    onPressed: isFull ? null : _increment,
                     style: TextButton.styleFrom(
-                      backgroundColor: Colors.white,
+                      backgroundColor: isFull ? Colors.white.withOpacity(0.2) : Colors.white,
                       fixedSize: const Size(100.0, 100.0),
                       foregroundColor: Colors.black,
                       shape: RoundedRectangleBorder(
